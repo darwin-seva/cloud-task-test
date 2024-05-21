@@ -2,3 +2,4 @@ node_modules
 test-sql.sql
 new-test-dbml.dbml
 dbml-error.log
+.env

@@ -5,11 +5,11 @@ async function main() {
 }
 
 async function createHttpTaskWithToken(
-  project = "quickstart-1578540830781", // Your GCP Project id
-  queue = "testing-queue-scheduler", // Name of your Queue
-  location = "asia-southeast2", // The GCP region of your queue
+  project = process.env.PROJECT_ID, // Your GCP Project id
+  queue = process.env.QUEUE_NAME, // Name of your Queue
+  location = process.env.QUEUE_LOCATION, // The GCP region of your queue
   url = "https://example.com/taskhandler", // The full url path that the request will be sent to
-  email = "arntonius@quickstart-1578540830781.iam.gserviceaccount.com", // Cloud IAM service account
+  email = process.env.EMAIL, // Cloud IAM service account
   payload = "Hello, World!",
 ) {
     // Imports the Google Cloud Tasks library.
