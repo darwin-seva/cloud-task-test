@@ -1,5 +1,9 @@
+// import { initializeApp } from "firebase/app";
+// import { getRemoteConfig } from "firebase/remote-config";
+
 async function main() {
-  await createHttpTaskWithToken()
+  // await createHttpTaskWithToken()
+  await fetchFirebaseRemoteConfig()
 
   return
 }
@@ -60,6 +64,26 @@ async function createHttpTaskWithToken(
       // Construct error for Stackdriver Error Reporting
       console.error(Error(error.message));
     }
+}
+
+async function fetchFirebaseRemoteConfig() {
+  const GOOGLE_APPLICATION_CREDENTIALS = "last-8eea6-firebase-adminsdk-hvhk1-8587cca1c7.json" // firebase credentials private key
+  const admin = require("firebase-admin")
+  const fs = require("fs")
+  const file = fs.readFileSync(GOOGLE_APPLICATION_CREDENTIALS)
+
+  const serviceAccount = JSON.parse(file)
+  
+  // Initialize Firebase
+  const app = admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount)
+  });
+
+  const remoteConfig = admin.remoteConfig(app); // get remote config
+  const template = await remoteConfig.getTemplate() // access remote config values
+
+  console.log(template.parameterGroups)
+  console.log(template.parameterGroups.cms.parameters)
 }
 
 main()
